@@ -28,7 +28,7 @@ $this->ldap->test();<br/>
 eg:- for add user<br/>
 <br/>
 $info["givenName"]="tets";<br/>
-$info["sn"]="tets";<br/>
+$info["sn"]=$user;<br/>
 $info["uid"]="tets";<br/>
 $info["mail"]="tets";<br/>
 $info["displayName"]= "tets";<br/>
