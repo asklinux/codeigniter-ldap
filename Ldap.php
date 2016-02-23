@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-
+error_reporting(0);
 class Ldap {
 
     
@@ -172,7 +172,7 @@ class Ldap {
 
     }
     public function check_username($user = NULL){
-	error_reporting(0);
+	
 	$ci =& get_instance();
 
 	$e = $this->connect();
@@ -200,6 +200,46 @@ class Ldap {
 	ldap_close($e);
 
     }
+    public function get_bahagian($user = NULL){
+	
+	$ci =& get_instance();
+
+	$e = $this->connect();
+
+	$justthese = array("ou");
+	
+	$p = $this->bind();
+
+	$du ="cn=".$user.",".$ci->config->item('ldap_user');
+
+	$filter="(|(cn=$user))";
+
+        $justthese = array("gidNumber");
+
+        $sr=ldap_search($e, $du , $filter, $justthese);
+
+        
+
+	if ($sr === FALSE ){
+		return 0;
+	}
+	else {
+		//return ldap_get_entries($e, $sr);
+		$getgroup = ldap_get_entries($e, $sr);
+		$gid = $getgroup[0]['gidnumber'][0];
+
+		$gn = "dc=dosh,dc=gov,dc=my";
+		$fgn = "(|(gidNumber=$gid))";
+		$jget = array("cn");
+		$sgn = ldap_search($e, $gn , $fgn, $jget);
+		$gname =  ldap_get_entries($e, $sgn);
+
+		return $gname[0]['cn'][0];
+
+	}
+	ldap_close($e);
+
+    }
     public function check_login($user = NULL, $password = NULL){
 
 	
@@ -215,8 +255,9 @@ class Ldap {
 
 		$du ="cn=".$user.",".$ci->config->item('ldap_user');
 		$attr = "userPassword";
+		$encoded_newPassword = "{SHA}" . base64_encode( pack( "H*", sha1( $password ) ) );
 
-		$r=ldap_compare($e,$du, $attr, $password."{md5}");
+		$r=ldap_compare($e,$du, $attr, $encoded_newPassword);
 
         	if ($r === -1) {
             		return "Error";
