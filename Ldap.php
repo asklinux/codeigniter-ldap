@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-error_reporting(0);
+//error_reporting(0);
 class Ldap {
 
     
@@ -186,17 +186,18 @@ class Ldap {
 	$filter="(|(cn=$user))";
 
         $justthese = array("ou", "sn", "givenname", "mail","employeetype");
-
+	
+	try {
         $sr=ldap_search($e, $du , $filter, $justthese);
 
-        //$getuser = ldap_get_entries($e, $sr);
+	return ldap_get_entries($e, $sr);
+	}
+	catch (Exception $e) {
+		return 0;    		
+	}
 
-	if ($sr === FALSE ){
-		return 0;
-	}
-	else {
-		return ldap_get_entries($e, $sr);
-	}
+
+
 	ldap_close($e);
 
     }
