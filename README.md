@@ -1,3 +1,21 @@
+
+Using debian 8 
+
+Install open ldap
+
+$apt-get install slaps
+
+install php5
+
+$apt-get install php5
+$apt-get install php5-ldap
+
+install phpldap admin
+
+$apt-get install phpldapadmin
+
+
+
 # codeigniter-ldap
 codeigniter ldap class<br/>
 
