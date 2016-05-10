@@ -3,7 +3,11 @@ Using debian 8
 
 Install open ldap
 
-$apt-get install slaps
+$apt-get install slapd ldap-utils
+
+change /etc/ldap/ldap.conf for you base eg: dc=tunnelbiz,dc=com
+
+$dpkg-reconfigure slapd
 
 install php5
 
