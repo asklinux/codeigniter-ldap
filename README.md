@@ -5,7 +5,7 @@ Install open ldap
 
 $apt-get install slapd ldap-utils
 
-change /etc/ldap/ldap.conf for you base eg: dc=tunnelbiz,dc=com
+change /etc/ldap/ldap.conf for you base eg: dc=test,dc=com,dc=my
 
 $dpkg-reconfigure slapd
 
